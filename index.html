@@ -1,26 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Mini RPG</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🗡️ Mini RPG</h1>
+<h2>Mini RPG</h2>
 
-<div id="game">
-  <p id="story">You wake up in a dark forest...</p>
-
-  <div id="stats">
-    ❤️ HP: <span id="hp">100</span> |
-    ⚔️ Attack: <span id="atk">10</span>
-  </div>
-
-  <div id="choices"></div>
+<!-- PLAYER BAR -->
+<div id="playerBar">
+  ❤️ <span id="hp"></span>
+  ⚔️ <span id="atk"></span>
+  🛡️ <span id="def"></span>
+  ⚡ <span id="stam"></span>
+  ⭐ Lv:<span id="lvl"></span> (Pts: <span id="pts"></span>)
 </div>
-  <h3>🎒 Inventory</h3>
-<ul id="inventory"></ul>
+
+<!-- ENEMY -->
+<div id="enemyBox">
+  <h3 id="enemyName"></h3>
+  <p>HP: <span id="enemyHp"></span></p>
+</div>
+
+<!-- ACTIONS -->
+<div id="actions"></div>
+
+<!-- LOG -->
+<div id="log"></div>
+
+<!-- INVENTORY PANEL -->
+<button onclick="toggleInv()">🎒 Inventory</button>
+
+<div id="invPanel" class="hidden">
+  <button onclick="showTab('inv')">Inventory</button>
+  <button onclick="showTab('equip')">Equipment</button>
+
+  <div id="inventory"></div>
+  <div id="equipment" class="hidden"></div>
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="hidden"></div>
 
 <script src="game.js"></script>
 </body>
