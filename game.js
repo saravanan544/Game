@@ -1,80 +1,214 @@
+// PLAYER
 let player = {
-  hp: 100,
-  atk: 10
+  atk: 10,
+  def: 5,
+  stam: 50,
+  lvl: 1,
+  pts: 0,
+  inventory: [],
+  equip: {
+    weapon: null,
+    gloves: null,
+    armor: null,
+    pants: null,
+    shoes: null,
+    helmet: null
+  }
 };
 
-function updateStats() {
-  document.getElementById("hp").innerText = player.hp;
-  document.getElementById("atk").innerText = player.atk;
+function getHP() {
+  return player.def * 2 + player.atk;
 }
 
-function setStory(text, choices) {
-  document.getElementById("story").innerText = text;
+// ITEMS
+const items = {
+  sword: {name:"Sword", type:"weapon", atk:10},
+  gloves: {name:"Gloves", type:"gloves", atk:3},
+  armor: {name:"Armor", type:"armor", def:10},
+  pants: {name:"Pants", type:"pants", def:5},
+  shoes: {name:"Shoes", type:"shoes", atk:5},
+  helmet: {name:"Helmet", type:"helmet", def:3},
+  potion: {name:"Stam Potion", type:"consumable", stam:20}
+};
 
-  let choicesDiv = document.getElementById("choices");
-  choicesDiv.innerHTML = "";
+// MOBS
+const mobs = [
+  {name:"Goblin", hp:40, atk:8, def:3, drops:["sword","gloves"]},
+  {name:"Orc", hp:70, atk:12, def:6, drops:["armor","pants"]},
+  {name:"Wolf", hp:50, atk:10, def:4, drops:["shoes","helmet"]}
+];
 
-  choices.forEach(choice => {
+let enemy = null;
+
+// UI UPDATE
+function updateUI() {
+  document.getElementById("atk").innerText = player.atk;
+  document.getElementById("def").innerText = player.def;
+  document.getElementById("stam").innerText = player.stam;
+  document.getElementById("lvl").innerText = player.lvl;
+  document.getElementById("pts").innerText = player.pts;
+  document.getElementById("hp").innerText = getHP();
+
+  if(enemy){
+    document.getElementById("enemyName").innerText = enemy.name;
+    document.getElementById("enemyHp").innerText = enemy.hp;
+  }
+
+  renderInventory();
+  renderEquip();
+}
+
+// LOG
+function log(msg){
+  let logBox = document.getElementById("log");
+  logBox.innerHTML += "<div>"+msg+"</div>";
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+// ENCOUNTER
+function newEnemy(){
+  let m = mobs[Math.floor(Math.random()*mobs.length)];
+  enemy = {...m};
+  log("Encountered "+enemy.name);
+  updateUI();
+}
+
+// COMBAT
+function attack(mult){
+  if(player.stam < 5){
+    log("Not enough stamina");
+    return;
+  }
+
+  let dmg = Math.max(1, (player.atk * mult) - enemy.def);
+  enemy.hp -= dmg;
+  player.stam -= 5;
+
+  log("You dealt "+dmg);
+
+  if(enemy.hp <= 0){
+    winFight();
+    return;
+  }
+
+  let edmg = Math.max(1, enemy.atk - player.def);
+  log(enemy.name+" hits "+edmg);
+
+  updateUI();
+}
+
+// WIN
+function winFight(){
+  log("Enemy defeated!");
+
+  mobsDrop();
+
+  player.pts += 1;
+  player.lvl++;
+
+  chooseStat();
+
+  enemy = null;
+  updateUI();
+}
+
+// DROP
+function mobsDrop(){
+  let drops = enemy.drops;
+
+  drops.forEach(d=>{
+    if(Math.random() < 0.4){
+      player.inventory.push(d);
+      log("Got "+items[d].name);
+    }
+  });
+
+  if(Math.random() < 0.4){
+    player.inventory.push("potion");
+    log("Got Potion");
+  }
+}
+
+// INVENTORY
+function renderInventory(){
+  let inv = document.getElementById("inventory");
+  inv.innerHTML="";
+
+  player.inventory.forEach((item,i)=>{
     let btn = document.createElement("button");
-    btn.innerText = choice.text;
-    btn.onclick = choice.action;
-    choicesDiv.appendChild(btn);
+    btn.innerText = items[item].name;
+    btn.onclick = ()=>showPopup(item,i);
+    inv.appendChild(btn);
   });
 }
 
-// Scenes
-function startGame() {
-  updateStats();
-  setStory("You wake up in a dark forest. A path splits ahead.",
-    [
-      { text: "Go left", action: fightGoblin },
-      { text: "Go right", action: findPotion }
-    ]
-  );
+// POPUP
+function showPopup(item,index){
+  let p = document.getElementById("popup");
+  p.classList.remove("hidden");
+
+  p.innerHTML = `
+    <h3>${items[item].name}</h3>
+    <button onclick="useItem('${item}',${index})">Use/Equip</button>
+    <button onclick="closePopup()">Cancel</button>
+  `;
 }
 
-function fightGoblin() {
-  let damage = Math.floor(Math.random() * 15);
-  player.hp -= damage;
+function closePopup(){
+  document.getElementById("popup").classList.add("hidden");
+}
 
-  if (player.hp <= 0) {
-    return gameOver("A goblin defeated you 💀");
+// USE ITEM
+function useItem(item,index){
+  let it = items[item];
+
+  if(it.type === "consumable"){
+    player.stam += it.stam;
+    log("Recovered stamina");
+  } else {
+    let slot = it.type;
+    player.equip[slot] = item;
+
+    if(it.atk) player.atk += it.atk;
+    if(it.def) player.def += it.def;
+
+    log("Equipped "+it.name);
   }
 
-  setStory(`You fought a goblin! You lost ${damage} HP.`,
-    [
-      { text: "Continue", action: startGame }
-    ]
-  );
-
-  updateStats();
+  player.inventory.splice(index,1);
+  closePopup();
+  updateUI();
 }
 
-function findPotion() {
-  player.hp += 20;
+// EQUIP UI
+function renderEquip(){
+  let eq = document.getElementById("equipment");
+  eq.innerHTML="";
 
-  setStory("You found a potion! +20 HP",
-    [
-      { text: "Continue", action: startGame }
-    ]
-  );
-
-  updateStats();
+  for(let k in player.equip){
+    eq.innerHTML += `<div>${k}: ${player.equip[k]||"None"}</div>`;
+  }
 }
 
-function gameOver(message) {
-  setStory(message,
-    [
-      { text: "Restart", action: resetGame }
-    ]
-  );
+// STATS
+function chooseStat(){
+  let choice = prompt("Choose stat: atk / def / stam");
+
+  if(choice==="atk") player.atk++;
+  if(choice==="def") player.def++;
+  if(choice==="stam") player.stam+=5;
 }
 
-function resetGame() {
-  player.hp = 100;
-  player.atk = 10;
-  startGame();
+// TABS
+function toggleInv(){
+  document.getElementById("invPanel").classList.toggle("hidden");
 }
 
-// Start game
-startGame();
+function showTab(t){
+  document.getElementById("inventory").classList.toggle("hidden", t!=="inv");
+  document.getElementById("equipment").classList.toggle("hidden", t!=="equip");
+}
+
+// START
+newEnemy();
+updateUI();
