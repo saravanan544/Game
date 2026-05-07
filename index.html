@@ -13,30 +13,7 @@
       margin:0;
       padding:0;
     }
-.barWrap{
-  width:80%;
-  height:22px;
 
-  background:#333;
-
-  border-radius:20px;
-
-  margin:10px auto;
-
-  overflow:hidden;
-}
-
-#playerHpBar,
-#enemyHpBar{
-
-  height:100%;
-
-  width:100%;
-
-  background:limegreen;
-
-  transition:0.3s;
-}
     h2{
       margin-top:10px;
     }
@@ -45,6 +22,23 @@
       background:#222;
       padding:12px;
       font-size:18px;
+    }
+
+    .barWrap{
+      width:80%;
+      height:22px;
+      background:#333;
+      border-radius:20px;
+      margin:10px auto;
+      overflow:hidden;
+    }
+
+    #playerHpBar,
+    #enemyHpBar{
+      height:100%;
+      width:100%;
+      background:limegreen;
+      transition:0.3s;
     }
 
     #enemyBox{
@@ -138,15 +132,16 @@
   <!-- PLAYER -->
 
   <div id="playerBar">
+
     <div class="barWrap">
-  <div id="playerHpBar"></div>
+      <div id="playerHpBar"></div>
     </div>
 
     ❤️ HP:
     <span id="hp"></span>
 
     |
-    
+
     ⚔️ ATK:
     <span id="atk"></span>
 
@@ -180,15 +175,14 @@
 
     <h2 id="enemyName"></h2>
 
-
     <p>
-  HP:
-  <span id="enemyHp"></span>
-</p>
+      HP:
+      <span id="enemyHp"></span>
+    </p>
 
-<div class="barWrap">
-  <div id="enemyHpBar"></div>
-</div>
+    <div class="barWrap">
+      <div id="enemyHpBar"></div>
+    </div>
 
   </div>
 
@@ -201,8 +195,6 @@
   <div id="log"></div>
 
   <!-- INVENTORY -->
-
-  
 
   <div id="invPanel" class="hidden">
 
@@ -350,8 +342,10 @@
 
     function updateUI(){
 
+      // PLAYER
+
       document.getElementById("hp").innerText =
-        player.hp;
+        player.hp + "/" + player.maxHp;
 
       document.getElementById("atk").innerText =
         player.atk;
@@ -368,47 +362,48 @@
       document.getElementById("pts").innerText =
         player.pts;
 
-     if(enemy){
+      // ENEMY
 
-  document.getElementById("enemyName").innerText =
-    enemy.name;
+      if(enemy){
 
-  document.getElementById("enemyHp").innerText =
-    enemy.hp;
+        document.getElementById("enemyName").innerText =
+          enemy.name;
 
-  document.getElementById("enemyImg").src =
-    enemy.image;
-}
+        document.getElementById("enemyHp").innerText =
+          enemy.hp + "/" + enemy.maxHp;
 
-let playerPercent =
-  (player.hp / player.maxHp) * 100;
+        document.getElementById("enemyImg").src =
+          enemy.image;
 
-document.getElementById("playerHpBar").style.width =
-  playerPercent + "%";
+      } else {
 
-let enemyPercent = 0;
+        document.getElementById("enemyName").innerText =
+          "No Enemy";
 
-if(enemy){
+        document.getElementById("enemyHp").innerText =
+          "";
 
-  enemyPercent =
-    (enemy.hp / enemy.maxHp) * 100;
-}
+        document.getElementById("enemyHpBar").style.width =
+          "0%";
+      }
 
-document.getElementById("enemyHpBar").style.width =
-  enemyPercent + "%";
+      // PLAYER HP BAR
 
-document.getElementById("playerHpBar").style.width =
-  playerPercent + "%";
+      let playerPercent =
+        (player.hp / player.maxHp) * 100;
 
-let enemyPercent = 0;
+      document.getElementById("playerHpBar").style.width =
+        playerPercent + "%";
 
-if(enemy){
-  enemyPercent =
-    (enemy.hp / enemy.maxHp) * 100;
-}
+      // ENEMY HP BAR
 
-document.getElementById("enemyHpBar").style.width =
-  enemyPercent + "%";
+      if(enemy){
+
+        let enemyPercent =
+          (enemy.hp / enemy.maxHp) * 100;
+
+        document.getElementById("enemyHpBar").style.width =
+          enemyPercent + "%";
       }
 
       renderInventory();
@@ -445,9 +440,9 @@ document.getElementById("enemyHpBar").style.width =
         mobs[Math.floor(Math.random()*mobs.length)];
 
       enemy = {
-  ...mob,
-  maxHp: mob.hp
-};
+        ...mob,
+        maxHp: mob.hp
+      };
 
       log("Encountered " + enemy.name);
 
@@ -519,7 +514,7 @@ document.getElementById("enemyHpBar").style.width =
     }
 
     // =====================
-    // WIN FIGHT
+    // WIN
     // =====================
 
     function winFight(){
@@ -565,7 +560,7 @@ document.getElementById("enemyHpBar").style.width =
     }
 
     // =====================
-    // LEVEL STAT
+    // LEVEL UP
     // =====================
 
     function chooseStat(){
@@ -687,7 +682,7 @@ document.getElementById("enemyHpBar").style.width =
 
         let slot = it.type;
 
-        // REMOVE OLD STATS
+        // REMOVE OLD
 
         let oldItem =
           player.equip[slot];
@@ -721,8 +716,15 @@ document.getElementById("enemyHpBar").style.width =
         log("Equipped " + it.name);
       }
 
-      player.hp =
+      // UPDATE HP
+
+      player.maxHp =
         (player.def * 2) + player.atk;
+
+      if(player.hp > player.maxHp){
+
+        player.hp = player.maxHp;
+      }
 
       player.inventory.splice(index,1);
 
@@ -732,7 +734,7 @@ document.getElementById("enemyHpBar").style.width =
     }
 
     // =====================
-    // EQUIPMENT UI
+    // EQUIPMENT
     // =====================
 
     function renderEquip(){
@@ -779,9 +781,7 @@ document.getElementById("enemyHpBar").style.width =
         act.innerHTML = `
 
           <button onclick="newEnemy()">
-
             🔍 Find Enemy
-
           </button>
 
         `;
@@ -807,7 +807,7 @@ document.getElementById("enemyHpBar").style.width =
     }
 
     // =====================
-    // INVENTORY TABS
+    // TABS
     // =====================
 
     function toggleInv(){
