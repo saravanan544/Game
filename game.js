@@ -56,6 +56,7 @@ function updateUI() {
 
   renderInventory();
   renderEquip();
+  renderActions();
 }
 
 // LOG
@@ -227,4 +228,4 @@ function renderActions(){
 // START
 newEnemy();
 updateUI();
-renderActions();
+
