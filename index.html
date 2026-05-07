@@ -368,18 +368,34 @@
       document.getElementById("pts").innerText =
         player.pts;
 
-      if(enemy){
+     if(enemy){
 
-        document.getElementById("enemyName").innerText =
-          enemy.name;
+  document.getElementById("enemyName").innerText =
+    enemy.name;
 
-        document.getElementById("enemyHp").innerText =
-          enemy.hp;
+  document.getElementById("enemyHp").innerText =
+    enemy.hp;
 
-        document.getElementById("enemyImg").src =
-          enemy.image;
-        let playerPercent =
+  document.getElementById("enemyImg").src =
+    enemy.image;
+}
+
+let playerPercent =
   (player.hp / player.maxHp) * 100;
+
+document.getElementById("playerHpBar").style.width =
+  playerPercent + "%";
+
+let enemyPercent = 0;
+
+if(enemy){
+
+  enemyPercent =
+    (enemy.hp / enemy.maxHp) * 100;
+}
+
+document.getElementById("enemyHpBar").style.width =
+  enemyPercent + "%";
 
 document.getElementById("playerHpBar").style.width =
   playerPercent + "%";
