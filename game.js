@@ -75,7 +75,7 @@ function newEnemy(){
 
 // COMBAT
 function attack(mult){
-  if(player.stam < 5){
+  if(player.stam -= (mult === 1 ? 5 : 10);){
     log("Not enough stamina");
     return;
   }
@@ -209,6 +209,22 @@ function showTab(t){
   document.getElementById("equipment").classList.toggle("hidden", t!=="equip");
 }
 
+function renderActions(){
+  let act = document.getElementById("actions");
+
+  if(!enemy){
+    act.innerHTML = `<button onclick="newEnemy()">🔍 Find Enemy</button>`;
+    return;
+  }
+
+  act.innerHTML = `
+    <button onclick="attack(1)">⚔️ Attack (5 SP)</button>
+    <button onclick="attack(1.5)">💥 Heavy (10 SP)</button>
+    <button onclick="toggleInv()">🎒 Inventory</button>
+  `;
+}
+
 // START
 newEnemy();
 updateUI();
+renderActions();
