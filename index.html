@@ -13,7 +13,30 @@
       margin:0;
       padding:0;
     }
+.barWrap{
+  width:80%;
+  height:22px;
 
+  background:#333;
+
+  border-radius:20px;
+
+  margin:10px auto;
+
+  overflow:hidden;
+}
+
+#playerHpBar,
+#enemyHpBar{
+
+  height:100%;
+
+  width:100%;
+
+  background:limegreen;
+
+  transition:0.3s;
+}
     h2{
       margin-top:10px;
     }
@@ -115,6 +138,9 @@
   <!-- PLAYER -->
 
   <div id="playerBar">
+    <div class="barWrap">
+  <div id="playerHpBar"></div>
+    </div>
 
     ❤️ HP:
     <span id="hp"></span>
@@ -154,10 +180,15 @@
 
     <h2 id="enemyName"></h2>
 
+
     <p>
-      ❤️ HP:
-      <span id="enemyHp"></span>
-    </p>
+  HP:
+  <span id="enemyHp"></span>
+</p>
+
+<div class="barWrap">
+  <div id="enemyHpBar"></div>
+</div>
 
   </div>
 
@@ -207,6 +238,7 @@
       def:5,
 
       hp:20,
+      maxhp:20,
 
       stam:50,
       maxStam:50,
@@ -348,6 +380,21 @@
 
         document.getElementById("enemyImg").src =
           enemy.image;
+        let playerPercent =
+  (player.hp / player.maxHp) * 100;
+
+document.getElementById("playerHpBar").style.width =
+  playerPercent + "%";
+
+let enemyPercent = 0;
+
+if(enemy){
+  enemyPercent =
+    (enemy.hp / enemy.maxHp) * 100;
+}
+
+document.getElementById("enemyHpBar").style.width =
+  enemyPercent + "%";
       }
 
       renderInventory();
@@ -383,7 +430,10 @@
       let mob =
         mobs[Math.floor(Math.random()*mobs.length)];
 
-      enemy = {...mob};
+      enemy = {
+  ...mob,
+  maxHp: mob.hp
+};
 
       log("Encountered " + enemy.name);
 
@@ -526,8 +576,10 @@
         player.stam += 5;
       }
 
-      player.hp =
+      player.maxhp =
         (player.def * 2) + player.atk;
+
+      player.hp = player.maxhp;
     }
 
     // =====================
@@ -772,8 +824,10 @@
     // START
     // =====================
 
-    player.hp =
+    player.maxhp =
       (player.def * 2) + player.atk;
+
+    player.hp = player.maxhp;
 
     newEnemy();
 
