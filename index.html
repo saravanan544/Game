@@ -1,53 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaos Tower</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Chaos Tower</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="game">
+<div id="background">
 
     <h1>CHAOS TOWER</h1>
-    <p class="version">Version 0.1 Alpha</p>
-
-    <div id="background">
-        Background Placeholder
-    </div>
-
-    <div id="playerInfo">
-        <p>🏆 Highest Floor: <span id="floor">1</span></p>
-        <p>⭐ Level: <span id="level">1</span></p>
-        <p>💰 Gold: <span id="gold">0</span></p>
-    </div>
 
     <button id="enterTower">
-        🏰 ENTER TOWER
+        🏰 Enter Tower
     </button>
 
-    <div id="menu">
+    <div class="menu">
 
-        <button>⚔ Character</button>
         <button>🎒 Inventory</button>
+        <button>👤 Character</button>
 
-        <button>⚒ Blacksmith</button>
-        <button>🧪 Alchemist</button>
+        <button>⚒️ Blacksmith</button>
+        <button disabled>🧪 Alchemy<br><small>Coming Soon</small></button>
 
-        <button>🛒 Merchant</button>
-        <button>📖 Codex</button>
+        <button>🛒 Market</button>
+        <button disabled>🛡 Guild<br><small>Coming Soon</small></button>
 
-        <button>⚙ Settings</button>
-        <button>❓ Help</button>
+        <button>📅 Events</button>
+        <button>⚙️ Menu</button>
 
+    </div>
+
+    <div id="version">
+        Chaos Tower v0.0.1 Alpha
     </div>
 
 </div>
-
-<script src="script.js"></script>
 
 </body>
 </html>
