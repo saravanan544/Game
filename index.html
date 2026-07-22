@@ -1,19 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Chaos Tower</title>
-<link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos Tower</title>
 
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-<div id="background">
+<div class="container">
 
     <h1>CHAOS TOWER</h1>
 
-    <button id="enterTower">
-        🏰 Enter Tower
+    <p class="version">Alpha v0.0.1</p>
+
+    <div class="background">
+
+        <div class="tower">
+            🏰
+        </div>
+
+    </div>
+
+    <button id="enterBtn">
+        Enter Tower
     </button>
 
     <div class="menu">
@@ -21,20 +32,23 @@
         <button>🎒 Inventory</button>
         <button>👤 Character</button>
 
-        <button>⚒️ Blacksmith</button>
-        <button disabled>🧪 Alchemy<br><small>Coming Soon</small></button>
+        <button disabled>⚒ Blacksmith</button>
+        <button disabled>🛒 Market</button>
 
-        <button>🛒 Market</button>
-        <button disabled>🛡 Guild<br><small>Coming Soon</small></button>
+        <button disabled>🧪 Alchemy</button>
+        <button disabled>🛡 Guild</button>
 
-        <button>📅 Events</button>
-        <button>⚙️ Menu</button>
+        <button disabled>🎉 Events</button>
+        <button>⚙ Menu</button>
 
     </div>
 
-    <div id="version">
-        Chaos Tower v0.0.1 Alpha
-    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>    </div>
 
 </div>
 
