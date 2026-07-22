@@ -11,13 +11,19 @@ body{
 }
 
 .container{
-
     width:100%;
     max-width:500px;
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
 
     text-align:center;
 
     padding:20px;
+    box-sizing:border-box;
 }
 
 h1{
@@ -33,18 +39,14 @@ h1{
 }
 
 .background{
-
-    height:300px;
-
+    height:40vh;
+    min-height:280px;
+    border-radius:20px;
     background:#222;
-
-    border-radius:15px;
 
     display:flex;
     justify-content:center;
     align-items:center;
-
-    margin-bottom:20px;
 }
 
 .tower{
