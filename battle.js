@@ -1,289 +1,196 @@
-// ==========================
-// CHAOS TOWER - battle.js
-// Alpha v0.0.2
-// ==========================
+/* ==========================================
+   CHAOS TOWER
+   BATTLE.JS
+   Part 1
+========================================== */
 
-// ---------- PLAYER ----------
+// ===============================
+// PLAYER
+// ===============================
 
 const player = {
-    level: 1,
-    exp: 0,
-    gold: 0,
 
-    hp: 20,
-    maxHp: 20,
+    level:1,
 
-    stamina: 50,
-    maxStamina: 50,
+    exp:0,
 
-    attack: 10,
-    defense: 5
-};
+    gold:0,
 
-// ---------- FLOOR DATA ----------
+    maxHp:20,
 
-const floors = {
+    hp:20,
 
-    1: [
+    atk:10,
 
-        {
-            name: "Goblin",
-            image: "images/monsters/goblin.png",
+    def:5,
 
-            hp: 40,
-            maxHp: 40,
-
-            attack: 8,
-            defense: 3,
-
-            exp: 10,
-            gold: 15
-        },
-
-        {
-            name: "Wolf",
-            image: "images/monsters/wolf.png",
-
-            hp: 50,
-            maxHp: 50,
-
-            attack: 10,
-            defense: 4,
-
-            exp: 15,
-            gold: 20
-        }
-
-    ]
+    stamina:50
 
 };
 
-// ---------- CURRENT FLOOR ----------
+// ===============================
+// FLOOR 1 MONSTERS
+// ===============================
 
-let currentFloor = 1;
+const monsters = [
 
-let enemy = null;
+{
 
-// ---------- LOG ----------
+    name:"Goblin",
 
-function log(text){
+    hp:40,
 
-    const logBox = document.getElementById("log");
+    maxHp:40,
 
-    logBox.innerHTML += "<div>"+text+"</div>";
+    atk:6,
 
-    logBox.scrollTop = logBox.scrollHeight;
+    def:2,
+
+    exp:15,
+
+    gold:10,
+
+    image:"images/monsters/goblin.png"
+
+},
+
+{
+
+    name:"Wolf",
+
+    hp:35,
+
+    maxHp:35,
+
+    atk:8,
+
+    def:1,
+
+    exp:18,
+
+    gold:12,
+
+    image:"images/monsters/wolf.png"
+
+},
+
+{
+
+    name:"Orc",
+
+    hp:60,
+
+    maxHp:60,
+
+    atk:10,
+
+    def:5,
+
+    exp:25,
+
+    gold:18,
+
+    image:"images/monsters/orc.png"
 
 }
 
-// ---------- SPAWN ----------
+];
 
-function spawnMonster(){
+// ===============================
+// CURRENT ENEMY
+// ===============================
 
-    let monsters = floors[currentFloor];
+let enemy;
 
-    enemy = JSON.parse(
-        JSON.stringify(
-            monsters[Math.floor(Math.random()*monsters.length)]
-        )
-    );
+// ===============================
+// BATTLE LOG
+// ===============================
 
-    document.getElementById("monsterImg").src = enemy.image;
+function addLog(text){
 
-    document.getElementById("monsterName").innerText =
-        enemy.name;
+    const log = document.getElementById("battleLog");
 
-    log("👹 A wild "+enemy.name+" appeared!");
+    log.innerHTML += "<p>" + text + "</p>";
+
+    log.scrollTop = log.scrollHeight;
+
+}
+
+// ===============================
+// SPAWN ENEMY
+// ===============================
+
+function spawnEnemy(){
+
+    const random = Math.floor(Math.random()*monsters.length);
+
+    enemy = {
+
+        ...monsters[random]
+
+    };
+
+    addLog("A wild " + enemy.name + " appeared!");
 
     updateUI();
 
 }
 
-// ---------- UPDATE ----------
+// ===============================
+// UPDATE UI
+// ===============================
 
 function updateUI(){
 
-    // PLAYER
+    // Enemy
+
+    document.getElementById("enemyName").innerText =
+    enemy.name;
+
+    document.getElementById("enemyImg").src =
+    enemy.image;
+
+    document.getElementById("enemyHpText").innerText =
+    "HP " + enemy.hp + " / " + enemy.maxHp;
+
+    // Player
 
     document.getElementById("playerHpText").innerText =
-        player.hp + " / " + player.maxHp;
+    "HP " + player.hp + " / " + player.maxHp;
+
+    document.getElementById("playerLevel").innerText =
+    "⭐ Lv." + player.level;
+
+    document.getElementById("playerAtk").innerText =
+    "⚔ " + player.atk;
+
+    document.getElementById("playerDef").innerText =
+    "🛡 " + player.def;
+
+    document.getElementById("playerStam").innerText =
+    "⚡ " + player.stamina;
+
+    document.getElementById("playerGold").innerText =
+    "💰 " + player.gold;
+
+    // HP Bars
+
+    const enemyPercent =
+    (enemy.hp/enemy.maxHp)*100;
+
+    document.getElementById("enemyHpBar").style.width =
+    enemyPercent + "%";
+
+    const playerPercent =
+    (player.hp/player.maxHp)*100;
 
     document.getElementById("playerHpBar").style.width =
-        (player.hp/player.maxHp)*100 + "%";
-
-    document.getElementById("playerStats").innerHTML =
-        "Lv."+player.level+
-        " | ⚔ "+player.attack+
-        " | 🛡 "+player.defense+
-        " | 💰 "+player.gold+
-        " | ⭐ "+player.exp;
-
-    // ENEMY
-
-    if(enemy){
-
-        document.getElementById("enemyHpText").innerText =
-            enemy.hp+" / "+enemy.maxHp;
-
-        document.getElementById("enemyHpBar").style.width =
-            (enemy.hp/enemy.maxHp)*100+"%";
-
-    }
+    playerPercent + "%";
 
 }
 
-// ---------- PLAYER ATTACK ----------
-
-function attack(){
-
-    if(!enemy) return;
-
-    let damage =
-        Math.max(1,player.attack-enemy.defense);
-
-    enemy.hp -= damage;
-
-    if(enemy.hp<0)
-        enemy.hp=0;
-
-    log("⚔ You dealt "+damage+" damage.");
-
-    updateUI();
-
-    if(enemy.hp<=0){
-
-        victory();
-
-        return;
-    }
-
-    enemyAttack();
-
-}
-
-// ---------- HEAVY ----------
-
-function heavyAttack(){
-
-    if(!enemy) return;
-
-    let damage =
-        Math.floor(
-            (player.attack*1.5)-enemy.defense
-        );
-
-    damage=Math.max(1,damage);
-
-    enemy.hp-=damage;
-
-    if(enemy.hp<0)
-        enemy.hp=0;
-
-    log("💥 Heavy Attack dealt "+damage+" damage.");
-
-    updateUI();
-
-    if(enemy.hp<=0){
-
-        victory();
-
-        return;
-    }
-
-    enemyAttack();
-
-}
-
-// ---------- ENEMY ----------
-
-function enemyAttack(){
-
-    let damage =
-        Math.max(1,enemy.attack-player.defense);
-
-    player.hp-=damage;
-
-    if(player.hp<0)
-        player.hp=0;
-
-    log(enemy.name+" dealt "+damage+" damage.");
-
-    updateUI();
-
-    if(player.hp<=0){
-
-        defeat();
-
-    }
-
-}
-
-// ---------- VICTORY ----------
-
-function victory(){
-
-    log("🏆 Victory!");
-
-    player.exp+=enemy.exp;
-
-    player.gold+=enemy.gold;
-
-    log("⭐ +"+enemy.exp+" EXP");
-
-    log("💰 +"+enemy.gold+" Gold");
-
-    updateUI();
-
-    setTimeout(function(){
-
-        spawnMonster();
-
-    },1500);
-
-}
-
-// ---------- DEFEAT ----------
-
-function defeat(){
-
-    log("☠ You were defeated.");
-
-    alert("Game Over");
-
-    location.href="tower.html";
-
-}
-
-// ---------- RUN ----------
-
-function run(){
-
-    if(Math.random()<0.5){
-
-        log("🏃 You escaped.");
-
-        location.href="tower.html";
-
-    }
-
-    else{
-
-        log("❌ Couldn't escape!");
-
-        enemyAttack();
-
-    }
-
-}
-
-// ---------- BUTTONS ----------
-
-document.getElementById("attackBtn").onclick=attack;
-
-document.getElementById("heavyBtn").onclick=heavyAttack;
-
-document.getElementById("runBtn").onclick=run;
-
-// ---------- START ----------
-
-spawnMonster();
+// ===============================
+// START
+// ===============================
+
+spawnEnemy();
