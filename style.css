@@ -1,53 +1,95 @@
-body{
+/* ==========================================
+   CHAOS TOWER
+   STYLE.CSS
+   Alpha v0.0.1
+========================================== */
 
+/* ---------- RESET ---------- */
+
+*{
     margin:0;
-    background:#111;
-    color:white;
-
-    font-family:Arial;
-
-    display:flex;
-    justify-content:center;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.container{
-    width:100%;
-    max-width:430px;
+/* ---------- BODY ---------- */
 
-    margin:auto;
+body{
+
+    background:#0f1117;
+
+    color:white;
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    display:flex;
+
+    justify-content:center;
+
+    min-height:100vh;
+}
+
+/* ---------- CONTAINER ---------- */
+
+.container{
+
+    width:100%;
+
+    max-width:430px;
 
     min-height:100vh;
 
-    padding:15px;
-
-    box-sizing:border-box;
+    padding:20px;
 
     display:flex;
+
     flex-direction:column;
 
-    gap:15px;
+    gap:18px;
 }
+
+/* ---------- TEXT ---------- */
 
 h1{
 
-    margin-top:20px;
-    font-size:42px;
+    text-align:center;
+
+    font-size:38px;
+
+    letter-spacing:2px;
+}
+
+h2{
+
+    text-align:center;
 }
 
 .version{
 
-    color:gray;
-    margin-bottom:20px;
+    text-align:center;
+
+    color:#999;
 }
 
+small{
+
+    color:#cccccc;
+}
+
+/* ---------- BACKGROUND ---------- */
+
 .background{
-    height:40vh;
-    min-height:280px;
+
+    height:260px;
+
+    background:#1b2330;
+
     border-radius:20px;
-    background:#222;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 }
 
@@ -56,23 +98,46 @@ h1{
     font-size:100px;
 }
 
-#enterBtn{
+/* ---------- BUTTON ---------- */
 
-    width:90%;
-
-    height:60px;
-
-    font-size:24px;
+button{
 
     border:none;
 
     border-radius:12px;
 
-    background:#8b0000;
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.2s;
+}
+
+button:hover{
+
+    transform:scale(1.02);
+}
+
+button:disabled{
+
+    opacity:.45;
+
+    cursor:default;
+}
+
+/* ---------- HOME ---------- */
+
+#enterBtn{
+
+    width:100%;
+
+    height:60px;
+
+    background:#2563eb;
 
     color:white;
 
-    margin-bottom:25px;
+    font-size:22px;
 }
 
 .menu{
@@ -86,155 +151,112 @@ h1{
 
 .menu button{
 
-    height:55px;
+    height:60px;
 
-    border:none;
+    background:#1b2330;
 
-    border-radius:10px;
-
-    font-size:18px;
+    color:white;
 }
 
-button:disabled{
+.copyright{
 
-    opacity:0.45;
-}    width:280px;
-
-    height:70px;
-
-    font-size:28px;
-
-    margin-bottom:50px;
-
-    border-radius:15px;
-
-    cursor:pointer;
-
-}
-
-.menu{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,220px);
-
-    gap:20px;
-
-}
-
-.menu button{
-
-    height:70px;
-
-    font-size:20px;
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-}
-
-button:disabled{
-
-    opacity:0.5;
-
-}
-
-#version{
-
-    position:absolute;
-
-    bottom:15px;
-
-    right:20px;
+    text-align:center;
 
     color:gray;
 
+    margin-top:auto;
 }
+
+/* ---------- FLOOR PAGE ---------- */
+
 .floorList{
 
     display:flex;
-    flex-direction:column;
-    gap:15px;
 
-    margin-top:20px;
+    flex-direction:column;
+
+    gap:15px;
 }
 
 .floor{
 
-    height:80px;
-
-    font-size:22px;
-
-    border:none;
+    height:75px;
 
     border-radius:15px;
+
+    font-size:20px;
 }
 
 .unlocked{
 
-    background:#1b7f32;
+    background:#198754;
+
     color:white;
 }
 
 .locked{
 
-    background:#333;
+    background:#2b2b2b;
+
     color:#888;
 }
 
 #backBtn{
 
-    margin-top:30px;
-
     width:100%;
 
-    height:60px;
+    height:55px;
 
-    border:none;
-
-    border-radius:15px;
-
-    background:#8b0000;
+    background:#ef4444;
 
     color:white;
-
-    font-size:20px;
 }
+
+/* ---------- CARD ---------- */
+
 .card{
 
     background:#1b2330;
 
     border-radius:18px;
 
-    padding:15px;
+    padding:18px;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.4);
+    text-align:center;
 
+    box-shadow:0 5px 15px rgba(0,0,0,.35);
 }
 
-.enemyCard img{
+/* ---------- MONSTER IMAGE ---------- */
+
+.monsterImg{
 
     width:220px;
 
     height:220px;
 
     object-fit:contain;
+
+    display:block;
+
+    margin:auto;
 }
 
-.barWrap{
+/* ---------- HP BAR ---------- */
+
+.bar{
 
     width:100%;
 
-    height:20px;
+    height:18px;
 
-    background:#444;
+    background:#333;
 
     border-radius:20px;
 
     overflow:hidden;
 
-    margin:10px 0;
+    margin:12px 0;
 }
 
 #enemyHpBar{
@@ -243,7 +265,9 @@ button:disabled{
 
     height:100%;
 
-    background:red;
+    background:#ef4444;
+
+    transition:.3s;
 }
 
 #playerHpBar{
@@ -252,40 +276,133 @@ button:disabled{
 
     height:100%;
 
-    background:limegreen;
+    background:#22c55e;
+
+    transition:.3s;
 }
 
-.battleButtons{
+/* ---------- PLAYER STATS ---------- */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:8px;
+
+    margin-top:12px;
+
+    text-align:left;
+}
+
+.stats span{
+
+    background:#273244;
+
+    padding:8px;
+
+    border-radius:8px;
+
+    text-align:center;
+}
+
+/* ---------- ACTION BUTTONS ---------- */
+
+.actions{
 
     display:grid;
 
     grid-template-columns:1fr 1fr;
 
-    gap:10px;
-
-    margin-top:20px;
+    gap:12px;
 }
 
-.battleButtons button{
+.actions button{
 
     height:60px;
+
+    color:white;
 
     font-size:18px;
 }
 
+.attack{
+
+    background:#2563eb;
+}
+
+.heavy{
+
+    background:#ea580c;
+}
+
+.inventory{
+
+    background:#7c3aed;
+}
+
+.run{
+
+    background:#6b7280;
+}
+
+/* ---------- BATTLE LOG ---------- */
+
 #battleLog{
 
-    margin-top:20px;
-
-    background:#222;
+    background:#1b2330;
 
     border-radius:15px;
 
     padding:15px;
 
-    height:170px;
+    height:180px;
 
     overflow-y:auto;
 
     text-align:left;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.35);
+}
+
+#battleLog p{
+
+    margin-bottom:8px;
+}
+
+/* ---------- SCROLLBAR ---------- */
+
+#battleLog::-webkit-scrollbar{
+
+    width:6px;
+}
+
+#battleLog::-webkit-scrollbar-thumb{
+
+    background:#555;
+
+    border-radius:10px;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:430px){
+
+    h1{
+
+        font-size:32px;
+    }
+
+    .monsterImg{
+
+        width:180px;
+
+        height:180px;
+    }
+
+    .actions button{
+
+        font-size:16px;
+    }
 }
