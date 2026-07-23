@@ -301,3 +301,95 @@ function runAway(){
     },1000);
 
 }
+/* ==========================================
+   PART 3
+   VICTORY • DEFEAT • LEVEL UP
+========================================== */
+
+// ===============================
+// VICTORY
+// ===============================
+
+function victory(){
+
+    addLog("You defeated " + enemy.name + "!");
+
+    player.exp += enemy.exp;
+
+    player.gold += enemy.gold;
+
+    addLog("+" + enemy.exp + " EXP");
+
+    addLog("+" + enemy.gold + " Gold");
+
+    levelUp();
+
+    updateUI();
+
+    setTimeout(function(){
+
+        spawnEnemy();
+
+    },1500);
+
+}
+
+// ===============================
+// DEFEAT
+// ===============================
+
+function defeat(){
+
+    player.hp = player.maxHp;
+
+    let lostGold = Math.floor(player.gold * 0.2);
+
+    player.gold -= lostGold;
+
+    if(player.gold < 0){
+
+        player.gold = 0;
+
+    }
+
+    updateUI();
+
+    alert(
+        "You were defeated!\n\nLost " +
+        lostGold +
+        " Gold."
+    );
+
+    location.href = "tower.html";
+
+}
+
+// ===============================
+// LEVEL UP
+// ===============================
+
+function levelUp(){
+
+    while(player.exp >= player.level * 50){
+
+        player.exp -= player.level * 50;
+
+        player.level++;
+
+        player.maxHp += 10;
+
+        player.hp = player.maxHp;
+
+        player.atk += 2;
+
+        player.def += 1;
+
+        player.stamina += 5;
+
+        addLog("⭐⭐ LEVEL UP!");
+
+        addLog("You reached Level " + player.level);
+
+    }
+
+}
