@@ -1,133 +1,289 @@
-let player = {
+// ==========================
+// CHAOS TOWER - battle.js
+// Alpha v0.0.2
+// ==========================
 
-    hp:20,
-    maxHp:20,
-    atk:10,
-    def:5
+// ---------- PLAYER ----------
+
+const player = {
+    level: 1,
+    exp: 0,
+    gold: 0,
+
+    hp: 20,
+    maxHp: 20,
+
+    stamina: 50,
+    maxStamina: 50,
+
+    attack: 10,
+    defense: 5
+};
+
+// ---------- FLOOR DATA ----------
+
+const floors = {
+
+    1: [
+
+        {
+            name: "Goblin",
+            image: "images/monsters/goblin.png",
+
+            hp: 40,
+            maxHp: 40,
+
+            attack: 8,
+            defense: 3,
+
+            exp: 10,
+            gold: 15
+        },
+
+        {
+            name: "Wolf",
+            image: "images/monsters/wolf.png",
+
+            hp: 50,
+            maxHp: 50,
+
+            attack: 10,
+            defense: 4,
+
+            exp: 15,
+            gold: 20
+        }
+
+    ]
 
 };
 
-let enemy = {
+// ---------- CURRENT FLOOR ----------
 
-    name:"Goblin",
+let currentFloor = 1;
 
-    hp:40,
-    maxHp:40,
+let enemy = null;
 
-    atk:8,
-    def:3
-
-};
-
-updateUI();
-
-function updateUI(){
-
-    playerHp.innerText = player.hp;
-    playerMaxHp.innerText = player.maxHp;
-
-    enemyHp.innerText = enemy.hp;
-    enemyMaxHp.innerText = enemy.maxHp;
-
-    playerHpBar.style.width =
-        (player.hp/player.maxHp)*100 + "%";
-
-    enemyHpBar.style.width =
-        (enemy.hp/enemy.maxHp)*100 + "%";
-}
+// ---------- LOG ----------
 
 function log(text){
 
-    battleLog.innerHTML += "<p>"+text+"</p>";
+    const logBox = document.getElementById("log");
 
-    battleLog.scrollTop =
-        battleLog.scrollHeight;
-}
+    logBox.innerHTML += "<div>"+text+"</div>";
 
-function attack(){
-
-    let damage =
-        Math.max(1,player.atk-enemy.def);
-
-    enemy.hp-=damage;
-
-    log("You dealt "+damage+" damage.");
-
-    if(enemy.hp<=0){
-
-        log("Victory!");
-
-        setTimeout(()=>{
-
-            location.href="tower.html";
-
-        },1500);
-
-        updateUI();
-
-        return;
-    }
-
-    enemyAttack();
+    logBox.scrollTop = logBox.scrollHeight;
 
 }
 
-function heavyAttack(){
+// ---------- SPAWN ----------
 
-    let damage =
-        Math.max(1,(player.atk*1.5)-enemy.def);
+function spawnMonster(){
 
-    enemy.hp-=Math.floor(damage);
+    let monsters = floors[currentFloor];
 
-    log("Heavy Attack dealt "+Math.floor(damage)+" damage.");
+    enemy = JSON.parse(
+        JSON.stringify(
+            monsters[Math.floor(Math.random()*monsters.length)]
+        )
+    );
 
-    if(enemy.hp<=0){
+    document.getElementById("monsterImg").src = enemy.image;
 
-        log("Victory!");
+    document.getElementById("monsterName").innerText =
+        enemy.name;
 
-        setTimeout(()=>{
-
-            location.href="tower.html";
-
-        },1500);
-
-        updateUI();
-
-        return;
-    }
-
-    enemyAttack();
-
-}
-
-function enemyAttack(){
-
-    let damage =
-        Math.max(1,enemy.atk-player.def);
-
-    player.hp-=damage;
-
-    log(enemy.name+" dealt "+damage+" damage.");
-
-    if(player.hp<=0){
-
-        alert("Game Over");
-
-        location.href="tower.html";
-
-    }
+    log("👹 A wild "+enemy.name+" appeared!");
 
     updateUI();
 
 }
 
-function openInventory(){
+// ---------- UPDATE ----------
 
-    alert("Inventory coming in Alpha.");
+function updateUI(){
+
+    // PLAYER
+
+    document.getElementById("playerHpText").innerText =
+        player.hp + " / " + player.maxHp;
+
+    document.getElementById("playerHpBar").style.width =
+        (player.hp/player.maxHp)*100 + "%";
+
+    document.getElementById("playerStats").innerHTML =
+        "Lv."+player.level+
+        " | ⚔ "+player.attack+
+        " | 🛡 "+player.defense+
+        " | 💰 "+player.gold+
+        " | ⭐ "+player.exp;
+
+    // ENEMY
+
+    if(enemy){
+
+        document.getElementById("enemyHpText").innerText =
+            enemy.hp+" / "+enemy.maxHp;
+
+        document.getElementById("enemyHpBar").style.width =
+            (enemy.hp/enemy.maxHp)*100+"%";
+
+    }
+
 }
 
-function runAway(){
+// ---------- PLAYER ATTACK ----------
+
+function attack(){
+
+    if(!enemy) return;
+
+    let damage =
+        Math.max(1,player.attack-enemy.defense);
+
+    enemy.hp -= damage;
+
+    if(enemy.hp<0)
+        enemy.hp=0;
+
+    log("⚔ You dealt "+damage+" damage.");
+
+    updateUI();
+
+    if(enemy.hp<=0){
+
+        victory();
+
+        return;
+    }
+
+    enemyAttack();
+
+}
+
+// ---------- HEAVY ----------
+
+function heavyAttack(){
+
+    if(!enemy) return;
+
+    let damage =
+        Math.floor(
+            (player.attack*1.5)-enemy.defense
+        );
+
+    damage=Math.max(1,damage);
+
+    enemy.hp-=damage;
+
+    if(enemy.hp<0)
+        enemy.hp=0;
+
+    log("💥 Heavy Attack dealt "+damage+" damage.");
+
+    updateUI();
+
+    if(enemy.hp<=0){
+
+        victory();
+
+        return;
+    }
+
+    enemyAttack();
+
+}
+
+// ---------- ENEMY ----------
+
+function enemyAttack(){
+
+    let damage =
+        Math.max(1,enemy.attack-player.defense);
+
+    player.hp-=damage;
+
+    if(player.hp<0)
+        player.hp=0;
+
+    log(enemy.name+" dealt "+damage+" damage.");
+
+    updateUI();
+
+    if(player.hp<=0){
+
+        defeat();
+
+    }
+
+}
+
+// ---------- VICTORY ----------
+
+function victory(){
+
+    log("🏆 Victory!");
+
+    player.exp+=enemy.exp;
+
+    player.gold+=enemy.gold;
+
+    log("⭐ +"+enemy.exp+" EXP");
+
+    log("💰 +"+enemy.gold+" Gold");
+
+    updateUI();
+
+    setTimeout(function(){
+
+        spawnMonster();
+
+    },1500);
+
+}
+
+// ---------- DEFEAT ----------
+
+function defeat(){
+
+    log("☠ You were defeated.");
+
+    alert("Game Over");
 
     location.href="tower.html";
 
 }
+
+// ---------- RUN ----------
+
+function run(){
+
+    if(Math.random()<0.5){
+
+        log("🏃 You escaped.");
+
+        location.href="tower.html";
+
+    }
+
+    else{
+
+        log("❌ Couldn't escape!");
+
+        enemyAttack();
+
+    }
+
+}
+
+// ---------- BUTTONS ----------
+
+document.getElementById("attackBtn").onclick=attack;
+
+document.getElementById("heavyBtn").onclick=heavyAttack;
+
+document.getElementById("runBtn").onclick=run;
+
+// ---------- START ----------
+
+spawnMonster();
