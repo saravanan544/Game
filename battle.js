@@ -172,7 +172,15 @@ function updateUI(){
 
     document.getElementById("playerGold").innerText =
     "💰 " + player.gold;
+    // EXP
 
+let neededExp = player.level * 50;
+
+document.getElementById("playerExpText").innerText =
+"EXP " + player.exp + " / " + neededExp;
+
+document.getElementById("playerExpBar").style.width =
+(player.exp / neededExp) * 100 + "%";
     // HP Bars
 
     const enemyPercent =
