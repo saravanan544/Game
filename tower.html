@@ -1,50 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Chaos Tower - Floors</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>CHAOS TOWER</h1>
+    <!-- Page Title -->
+    <header>
 
-    <h2>Select a Floor</h2>
+        <h1>CHAOS TOWER</h1>
 
-    <div class="floorList">
+        <p class="version">
+            Choose a Floor
+        </p>
 
-        <button class="floor unlocked">
-            🟢 Floor 1
+    </header>
+
+    <!-- Floor List -->
+    <section class="floorList">
+
+        <button class="floor unlocked" id="floor1">
+
+            <strong>🟢 Floor 1</strong>
+
             <br>
-            <small>Recommended Lv.1</small>
+
+            <small>Recommended Level 1</small>
+
         </button>
 
-        <button class="floor locked">
+        <button class="floor locked" disabled>
+
             🔒 Floor 2
+
+            <br>
+
+            <small>Locked</small>
+
         </button>
 
-        <button class="floor locked">
+        <button class="floor locked" disabled>
+
             🔒 Floor 3
+
+            <br>
+
+            <small>Locked</small>
+
         </button>
 
-        <button class="floor locked">
+        <button class="floor locked" disabled>
+
             🔒 Floor 4
+
+            <br>
+
+            <small>Locked</small>
+
         </button>
 
-        <button class="floor locked">
+        <button class="floor locked" disabled>
+
             🔒 Floor 5
+
+            <br>
+
+            <small>Locked</small>
+
         </button>
 
-    </div>
+    </section>
 
-    <button onclick="location.href='index.html'" id="backBtn">
+    <!-- Return Button -->
+    <button id="backBtn">
+
         ← Return to Town
+
     </button>
 
 </div>
+
 <script src="script.js"></script>
+
 </body>
+
 </html>
