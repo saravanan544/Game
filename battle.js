@@ -194,3 +194,110 @@ function updateUI(){
 // ===============================
 
 spawnEnemy();
+/* ==========================================
+   PART 2
+   COMBAT SYSTEM
+========================================== */
+
+// ===============================
+// ATTACK BUTTON
+// ===============================
+
+document.getElementById("attackBtn").addEventListener("click", attack);
+
+document.getElementById("heavyBtn").addEventListener("click", heavyAttack);
+
+document.getElementById("runBtn").addEventListener("click", runAway);
+
+// ===============================
+// NORMAL ATTACK
+// ===============================
+
+function attack(){
+
+    let damage =
+    Math.max(1, player.atk - enemy.def);
+
+    enemy.hp -= damage;
+
+    addLog("You dealt " + damage + " damage!");
+
+    if(enemy.hp <= 0){
+
+        victory();
+
+        return;
+
+    }
+
+    enemyAttack();
+
+    updateUI();
+
+}
+
+// ===============================
+// HEAVY ATTACK
+// ===============================
+
+function heavyAttack(){
+
+    let damage =
+    Math.max(1, (player.atk * 2) - enemy.def);
+
+    enemy.hp -= damage;
+
+    addLog("Heavy Attack dealt " + damage + " damage!");
+
+    if(enemy.hp <= 0){
+
+        victory();
+
+        return;
+
+    }
+
+    enemyAttack();
+
+    updateUI();
+
+}
+
+// ===============================
+// ENEMY TURN
+// ===============================
+
+function enemyAttack(){
+
+    let damage =
+    Math.max(1, enemy.atk - player.def);
+
+    player.hp -= damage;
+
+    addLog(enemy.name + " dealt " + damage + " damage!");
+
+    if(player.hp <= 0){
+
+        defeat();
+
+        return;
+
+    }
+
+}
+
+// ===============================
+// RUN AWAY
+// ===============================
+
+function runAway(){
+
+    addLog("You escaped.");
+
+    setTimeout(function(){
+
+        location.href = "tower.html";
+
+    },1000);
+
+}
