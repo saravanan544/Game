@@ -281,6 +281,16 @@ button:disabled{
     transition:.3s;
 }
 
+#playerExpBar{
+
+    width:0%;
+
+    height:100%;
+
+    background:#3b82f6;
+
+    transition:.3s;
+}
 /* ---------- PLAYER STATS ---------- */
 
 .stats{
