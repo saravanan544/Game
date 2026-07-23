@@ -1,8 +1,15 @@
-document.getElementById("enterBtn").onclick = function(){
+const enterBtn = document.getElementById("enterBtn");
 
-    location.href = "tower.html";
+if (enterBtn) {
+    enterBtn.onclick = function () {
+        location.href = "tower.html";
+    };
+}
 
-};
-document.querySelector(".unlocked").onclick = function () {
-    location.href = "battle.html";
-};
+const floor1 = document.querySelector(".unlocked");
+
+if (floor1) {
+    floor1.onclick = function () {
+        location.href = "battle.html";
+    };
+}
