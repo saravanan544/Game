@@ -401,3 +401,168 @@ function levelUp(){
     }
 
 }
+/* ==========================================
+   PART 4
+   POLISH & EXTRA FEATURES
+========================================== */
+
+// ===============================
+// INVENTORY BUTTON
+// ===============================
+
+document.getElementById("inventoryBtn").addEventListener("click", function(){
+
+    alert("Inventory will be added in Alpha v0.0.2");
+
+});
+
+// ===============================
+// NORMAL ATTACK
+// ===============================
+
+function attack(){
+
+    // 10% chance to miss
+    if(Math.random() < 0.10){
+
+        addLog("You missed!");
+
+        enemyAttack();
+
+        updateUI();
+
+        return;
+
+    }
+
+    let damage = Math.max(1, player.atk - enemy.def);
+
+    // 15% Critical Hit
+    if(Math.random() < 0.15){
+
+        damage *= 2;
+
+        addLog("💥 Critical Hit!");
+
+    }
+
+    enemy.hp -= damage;
+
+    if(enemy.hp < 0){
+
+        enemy.hp = 0;
+
+    }
+
+    addLog("You dealt " + damage + " damage.");
+
+    updateUI();
+
+    if(enemy.hp <= 0){
+
+        victory();
+
+        return;
+
+    }
+
+    enemyAttack();
+
+    updateUI();
+
+}
+
+// ===============================
+// HEAVY ATTACK
+// ===============================
+
+function heavyAttack(){
+
+    // Costs stamina
+    if(player.stamina < 10){
+
+        addLog("Not enough stamina!");
+
+        return;
+
+    }
+
+    player.stamina -= 10;
+
+    // 20% chance to miss
+    if(Math.random() < 0.20){
+
+        addLog("Heavy Attack missed!");
+
+        enemyAttack();
+
+        updateUI();
+
+        return;
+
+    }
+
+    let damage = Math.max(1, player.atk * 2 - enemy.def);
+
+    // 30% Critical Hit
+    if(Math.random() < 0.30){
+
+        damage *= 2;
+
+        addLog("💥 Massive Critical!");
+
+    }
+
+    enemy.hp -= damage;
+
+    if(enemy.hp < 0){
+
+        enemy.hp = 0;
+
+    }
+
+    addLog("Heavy Attack dealt " + damage + " damage.");
+
+    updateUI();
+
+    if(enemy.hp <= 0){
+
+        victory();
+
+        return;
+
+    }
+
+    enemyAttack();
+
+    updateUI();
+
+}
+
+// ===============================
+// ENEMY ATTACK
+// ===============================
+
+function enemyAttack(){
+
+    let damage = Math.max(1, enemy.atk - player.def);
+
+    player.hp -= damage;
+
+    if(player.hp < 0){
+
+        player.hp = 0;
+
+    }
+
+    addLog(enemy.name + " dealt " + damage + " damage.");
+
+    updateUI();
+
+    if(player.hp <= 0){
+
+        defeat();
+
+    }
+
+}
