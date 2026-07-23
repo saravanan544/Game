@@ -16,16 +16,15 @@
 
 <div class="container">
 
-    <h1>⚔️ Floor 1</h1>
+    <h1>⚔ CHAOS TOWER</h1>
+
+    <h3 id="floorText">Floor 1</h3>
 
     <div class="enemyCard">
 
-        <img
-            id="monsterImg"
-            src=""
-            alt="Monster">
+        <img id="monsterImg" src="images/monsters/goblin.png">
 
-        <h2 id="monsterName"></h2>
+        <h2 id="monsterName">Goblin</h2>
 
         <div class="barWrap">
 
@@ -33,8 +32,81 @@
 
         </div>
 
-        <p id="enemyHpText"></p>
+        <p id="enemyHpText">
+            40 / 40 HP
+        </p>
 
+    </div>
+
+    <div class="playerCard">
+
+        <h2>🧙 Adventurer</h2>
+
+        <div class="barWrap">
+
+            <div id="playerHpBar"></div>
+
+        </div>
+
+        <p id="playerHpText">
+            20 / 20 HP
+        </p>
+
+        <p id="playerStats">
+
+            Lv.1
+
+            ⚔10
+
+            🛡5
+
+            ⚡50
+
+        </p>
+
+    </div>
+
+    <div class="battleButtons">
+
+        <button id="attackBtn">
+
+            ⚔ Attack
+
+        </button>
+
+        <button id="heavyBtn">
+
+            💥 Heavy
+
+        </button>
+
+        <button id="inventoryBtn">
+
+            🎒 Inventory
+
+        </button>
+
+        <button id="runBtn">
+
+            🏃 Run
+
+        </button>
+
+    </div>
+
+    <div id="log">
+
+        <p>Welcome to Chaos Tower.</p>
+
+    </div>
+
+</div>
+
+<script src="battle.js"></script>
+
+</body>
+
+</html>
     </div>
 
     <div class="playerCard">
