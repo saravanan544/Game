@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -15,26 +16,76 @@
 
 <div class="container">
 
-    <h1>Floor 1</h1>
-
-    <p id="battleStatus">
-        A wild monster appeared!
-    </p>
-
-    <!-- Monster -->
+    <h1>⚔️ Floor 1</h1>
 
     <div class="enemyCard">
 
         <img
-            id="enemyImg"
-            src="images/monsters/goblin.png"
+            id="monsterImg"
+            src=""
             alt="Monster">
 
-        <h2 id="enemyName">
-            Goblin
-        </h2>
+        <h2 id="monsterName"></h2>
 
         <div class="barWrap">
+
+            <div id="enemyHpBar"></div>
+
+        </div>
+
+        <p id="enemyHpText"></p>
+
+    </div>
+
+    <div class="playerCard">
+
+        <h2>🧙 You</h2>
+
+        <div class="barWrap">
+
+            <div id="playerHpBar"></div>
+
+        </div>
+
+        <p id="playerHpText"></p>
+
+        <p id="playerStats"></p>
+
+    </div>
+
+    <div class="battleButtons">
+
+        <button id="attackBtn">
+            ⚔ Attack
+        </button>
+
+        <button id="heavyBtn">
+            💥 Heavy Attack
+        </button>
+
+        <button id="runBtn">
+            🏃 Run
+        </button>
+
+        <button id="inventoryBtn">
+            🎒 Inventory
+        </button>
+
+    </div>
+
+    <h2>Battle Log</h2>
+
+    <div id="log">
+
+    </div>
+
+</div>
+
+<script src="battle.js"></script>
+
+</body>
+
+</html>        <div class="barWrap">
 
             <div id="enemyHpBar"></div>
 
